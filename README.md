@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
+
 # redux-mock-store
 
 A mock store for your testing your redux app
