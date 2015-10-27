@@ -45,13 +45,13 @@ describe('Redux mockStore', () => {
     store.dispatch(action);
   });
 
-  it.skip('should call the middleware', (done) => {
+  it('should call the middleware', (done) => {
     const spy = sinon.spy();
     const middlewares = [mockMiddleware(spy)];
     const mockStoreWithMiddleware = configureStore(middlewares);
     const action = { type: 'ADD_ITEM' };
-    const store = mockStoreWithMiddleware({}, [action], done);
 
+    const store = mockStoreWithMiddleware({}, [action], done);
     store.dispatch(action);
     expect(spy.called).toBe(true);
   });

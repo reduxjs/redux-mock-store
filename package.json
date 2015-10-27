@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/arnaudbenard/redux-mock-store.git"
   },
-  "author": "Arnaud Benard <arnaud@streethub.com>",
-  "license": "ISC",
+  "author": "Arnaud Benard <arnaudm.benard@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/arnaudbenard/redux-mock-store/issues"
   },
