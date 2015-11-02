@@ -2,7 +2,7 @@
 
 # redux-mock-store
 
-A mock store for your testing your redux app
+A mock store for your testing your redux async action creators and middleware
 
 ## Install
 
