@@ -15,7 +15,7 @@ export default function configureStore(middlewares = []) {
     }
 
     function mockStoreWithoutMiddleware() {
-      return {
+      const self = {
         getState() {
           return typeof getState === 'function' ?
             getState() :
@@ -23,6 +23,10 @@ export default function configureStore(middlewares = []) {
         },
 
         dispatch(action) {
+          if (action instanceof Function) {
+            return action(self)
+          }
+
           const expectedAction = expectedActions.shift();
 
           try {
@@ -40,6 +44,8 @@ export default function configureStore(middlewares = []) {
           }
         }
       };
+
+      return self;
     }
 
     const mockStoreWithMiddleware = applyMiddleware(

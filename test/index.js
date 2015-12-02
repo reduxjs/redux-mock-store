@@ -51,6 +51,15 @@ describe('Redux mockStore', () => {
     store.dispatch(action);
   });
 
+  it('handles actions that return functions', () => {
+    const action = { type: 'ADD_ITEM' };
+    const store = mockStore({}, [action]);
+
+    store.dispatch(
+      ({ dispatch }) => dispatch(action)
+    );
+  });
+
   it('should call the middleware', (done) => {
     const spy = sinon.spy();
     const middlewares = [mockMiddleware(spy)];
