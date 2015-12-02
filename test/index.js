@@ -7,9 +7,15 @@ const mockStore = configureStore([]);
 
 describe('Redux mockStore', () => {
 
-  it('throws an error if expectedActions is not an array', () => {
-    expect(() => mockStore({}, {}))
+  it('throws an error if expectedActions is not provided', () => {
+    expect(() => mockStore({}))
     .toThrow(/expectedActions/);
+  });
+
+  it('converts a single expected action to an array', () => {
+    const store = mockStore({}, {});
+
+    expect(store).toExist();
   });
 
   it('throws an error if done is not a function or undefined', () => {
