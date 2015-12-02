@@ -7,9 +7,15 @@ const mockStore = configureStore([]);
 
 describe('Redux mockStore', () => {
 
-  it('throws an error if expectedActions is not an array', () => {
-    expect(() => mockStore({}, {}))
+  it('throws an error if expectedActions is not provided', () => {
+    expect(() => mockStore({}))
     .toThrow(/expectedActions/);
+  });
+
+  it('converts a single expected action to an array', () => {
+    const store = mockStore({}, {});
+
+    expect(store).toExist();
   });
 
   it('throws an error if done is not a function or undefined', () => {
@@ -43,6 +49,27 @@ describe('Redux mockStore', () => {
     const store = mockStore({}, [action], done);
 
     store.dispatch(action);
+  });
+
+  it('handles actions that return functions', () => {
+    const action = { type: 'ADD_ITEM' };
+    const store = mockStore({}, [action]);
+
+    store.dispatch(
+      ({ dispatch }) => dispatch(action)
+    );
+  });
+
+  it('handles async actions', done => {
+    const clock = sinon.useFakeTimers();
+    const action = async ({ dispatch }) => {
+      const value = await Promise.resolve({ type: 'ASYNC' })
+      dispatch(value)
+    };
+    const store = mockStore({}, [{ type: 'ASYNC' }], done);
+    store.dispatch(action);
+    clock.tick(1);
+    clock.restore();
   });
 
   it('should call the middleware', (done) => {

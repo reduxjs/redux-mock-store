@@ -1,11 +1,13 @@
 import expect from 'expect';
 import { applyMiddleware } from 'redux';
 
-export default function configureStore(middlewares) {
+export default function configureStore(middlewares = []) {
 
   return function mockStore(getState, expectedActions, done) {
-    if (!Array.isArray(expectedActions)) {
-      throw new Error('expectedActions should be an array of expected actions.');
+    if (!expectedActions) {
+      throw new Error('expectedActions should be an expected action or an array of actions.');
+    } else if (!Array.isArray(expectedActions)) {
+      expectedActions = [expectedActions]
     }
 
     if (typeof done !== 'undefined' && typeof done !== 'function') {
@@ -13,7 +15,7 @@ export default function configureStore(middlewares) {
     }
 
     function mockStoreWithoutMiddleware() {
-      return {
+      const self = {
         getState() {
           return typeof getState === 'function' ?
             getState() :
@@ -21,6 +23,10 @@ export default function configureStore(middlewares) {
         },
 
         dispatch(action) {
+          if (action instanceof Function) {
+            return action(self)
+          }
+
           const expectedAction = expectedActions.shift();
 
           try {
@@ -30,10 +36,16 @@ export default function configureStore(middlewares) {
             }
             return action;
           } catch (e) {
-            done(e);
+            if (done) {
+              done(e);  
+            } else {
+              throw e;
+            }
           }
         }
       };
+
+      return self;
     }
 
     const mockStoreWithMiddleware = applyMiddleware(
