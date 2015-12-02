@@ -60,6 +60,18 @@ describe('Redux mockStore', () => {
     );
   });
 
+  it('handles async actions', done => {
+    const clock = sinon.useFakeTimers();
+    const action = async ({ dispatch }) => {
+      const value = await Promise.resolve({ type: 'ASYNC' })
+      dispatch(value)
+    };
+    const store = mockStore({}, [{ type: 'ASYNC' }], done);
+    store.dispatch(action);
+    clock.tick(1);
+    clock.restore();
+  });
+
   it('should call the middleware', (done) => {
     const spy = sinon.spy();
     const middlewares = [mockMiddleware(spy)];
