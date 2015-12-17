@@ -82,4 +82,28 @@ describe('Redux mockStore', () => {
     store.dispatch(action);
     expect(spy.called).toBe(true);
   });
+
+  it('should use test function instead of matching action if supplied', (done) => {
+    const action = { type: 'ADD_ITEM' };
+    const store = mockStore({}, [(a) => {
+      expect(a).toBe(action);
+    }], done);
+
+    store.dispatch(action);
+  });
+
+  it('should handle when test function throws an error', (done) => {
+    const action = { type: 'ADD_ITEM' };
+    const store = mockStore({}, [(incomingAction) => {
+      if (incomingAction.type !== 'ADD_TODO') {
+        throw Error('Expected action of type ADD_TODO');
+      }
+    }], (err) => {
+      expect(err).toExist();
+      expect(err.message).toBe('Expected action of type ADD_TODO');
+      done();
+    });
+
+    store.dispatch(action);
+  });
 });

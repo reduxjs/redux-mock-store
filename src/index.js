@@ -30,14 +30,18 @@ export default function configureStore(middlewares = []) {
           const expectedAction = expectedActions.shift();
 
           try {
-            expect(action).toEqual(expectedAction);
+            if (typeof expectedAction === 'function') {
+              expectedAction(action);
+            } else {
+              expect(action).toEqual(expectedAction);
+            }
             if (done && !expectedActions.length) {
               done();
             }
             return action;
           } catch (e) {
             if (done) {
-              done(e);  
+              done(e);
             } else {
               throw e;
             }
