@@ -7,7 +7,9 @@ export default function configureStore(middlewares = []) {
     if (!expectedActions) {
       throw new Error('expectedActions should be an expected action or an array of actions.');
     } else if (!Array.isArray(expectedActions)) {
-      expectedActions = [expectedActions]
+      expectedActions = [expectedActions];
+    } else {
+      expectedActions = Array.prototype.slice.call(expectedActions);
     }
 
     if (typeof done !== 'undefined' && typeof done !== 'function') {
