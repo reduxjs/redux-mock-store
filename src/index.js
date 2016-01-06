@@ -36,7 +36,7 @@ export default function configureStore(middlewares = []) {
             }
             return action;
           } catch (e) {
-            throw e;
+            done(e);
           }
         }
       };
