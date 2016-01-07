@@ -85,11 +85,19 @@ describe('Redux mockStore', () => {
 
   it('should use test function instead of matching action if supplied', (done) => {
     const action = { type: 'ADD_ITEM' };
-    const store = mockStore({}, [(a) => {
-      expect(a).toBe(action);
-    }], done);
+    const action2 = { type: 'SET_TIMESTAMP', stamp: Date.now() };
+    const action3 = { type: 'DELETE_ITEM' };
+    const store = mockStore({}, [
+      action,
+      (a) => {
+        expect(a.type).toBe('SET_TIMESTAMP');
+      },
+      action3
+    ], done);
 
     store.dispatch(action);
+    store.dispatch(action2);
+    store.dispatch(action3);
   });
 
   it('should handle when test function throws an error', (done) => {
