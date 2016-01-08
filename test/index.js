@@ -106,21 +106,27 @@ describe('Redux mockStore', () => {
       if (incomingAction.type !== 'ADD_TODO') {
         throw Error('Expected action of type ADD_TODO');
       }
-    }], sinon.stub().throws('Should not be called'));
+    }], (err) => {
+      expect(err.message).toBe('Expected action of type ADD_TODO');
+      done();
+    });
 
     expect(() => store.dispatch(action)).toThrow('Expected action of type ADD_TODO');
-    done();
   });
 
   it('handles multiple actions', done => {
-    const store = mockStore({}, [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }], done);
+    const store = mockStore({}, [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }], (err) => {
+      expect(err.actual.type).toBe('UNEXPECTED_ACTION');
+      expect(err.expected.type).toBe('ADD_ITEM');
+      done();
+    });
+
     try {
       store.dispatch({ type: 'UNEXPECTED_ACTION' });
       store.dispatch({ type: 'REMOVE_ITEM' });
     } catch (e) {
       expect(e.actual.type).toBe('UNEXPECTED_ACTION');
       expect(e.expected.type).toBe('ADD_ITEM');
-      // done(e);
     }
   });
 
