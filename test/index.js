@@ -123,4 +123,12 @@ describe('Redux mockStore', () => {
       done();
     }
   });
+
+  it('does not modify the expectedActions when dispatching', () => {
+    let expectedActions = [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }];
+    const store = mockStore({}, expectedActions);
+    store.dispatch({ type: 'ADD_ITEM' });
+    store.dispatch({ type: 'REMOVE_ITEM' });
+    expect(expectedActions.length).toEqual(2);
+  });
 });
