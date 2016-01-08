@@ -44,6 +44,9 @@ export default function configureStore(middlewares = []) {
 
             return action;
           } catch (e) {
+            if (done) {
+              done(e);
+            }
             throw e;
           }
         }
