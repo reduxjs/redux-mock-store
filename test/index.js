@@ -115,12 +115,12 @@ describe('Redux mockStore', () => {
   it('handles multiple actions', done => {
     const store = mockStore({}, [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }], done);
     try {
-      store.dispatch({ type: 'ADD_ITEMS' });
+      store.dispatch({ type: 'UNEXPECTED_ACTION' });
       store.dispatch({ type: 'REMOVE_ITEM' });
     } catch (e) {
-      expect(e.actual.type).toBe('ADD_ITEMS');
+      expect(e.actual.type).toBe('UNEXPECTED_ACTION');
       expect(e.expected.type).toBe('ADD_ITEM');
-      done();
+      // done(e);
     }
   });
 
