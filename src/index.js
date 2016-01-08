@@ -1,6 +1,8 @@
 import expect from 'expect';
 import { applyMiddleware } from 'redux';
 
+const isFunction = arg => typeof arg === 'function';
+
 export default function configureStore(middlewares = []) {
 
   return function mockStore(getState, expectedActions, done) {
@@ -12,34 +14,34 @@ export default function configureStore(middlewares = []) {
       expectedActions = Array.prototype.slice.call(expectedActions);
     }
 
-    if (typeof done !== 'undefined' && typeof done !== 'function') {
+    if (typeof done !== 'undefined' && !isFunction(done)) {
       throw new Error('done should either be undefined or function.');
     }
 
     function mockStoreWithoutMiddleware() {
       const self = {
         getState() {
-          return typeof getState === 'function' ?
-            getState() :
-            getState;
+          return isFunction(getState) ? getState() : getState;
         },
 
         dispatch(action) {
-          if (action instanceof Function) {
-            return action(self)
+          if (isFunction(action)) {
+            return action(self);
           }
 
           const expectedAction = expectedActions.shift();
 
           try {
-            if (typeof expectedAction === 'function') {
+            if (isFunction(expectedAction)) {
               expectedAction(action);
             } else {
               expect(action).toEqual(expectedAction);
             }
+
             if (done && !expectedActions.length) {
               done();
             }
+
             return action;
           } catch (e) {
             throw e;
