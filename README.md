@@ -32,6 +32,25 @@ it('should dispatch action', (done) => {
 })
 ```
 
+Custom test function for actions can also be supplied, useful if your actions have a dynamic
+part.
+
+```js
+// Test in mocha
+it('should dispatch action', (done) => {
+  const getState = {}; // initial state of the store
+  const action = { type: 'ADD_TODO' };
+  const expectedActions = [(incomingAction) => {
+    if (incomingAction.type !== 'ADD_TODO') {
+      throw Error('Expected action of type ADD_TODO');
+    }
+  }];
+
+  const store = mockStore(getState, expectedActions, done);
+  store.dispatch(action);
+})
+```
+
 ## License
 
 MIT
