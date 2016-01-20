@@ -49,6 +49,10 @@ export default function configureStore(middlewares = []) {
             }
             throw e;
           }
+        },
+
+        subscribe(listener) {
+            return null;
         }
       };
 

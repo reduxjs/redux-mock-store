@@ -137,4 +137,10 @@ describe('Redux mockStore', () => {
     store.dispatch({ type: 'REMOVE_ITEM' });
     expect(expectedActions.length).toEqual(2);
   });
+
+  it('returns null on subscribe', () => {
+    const store = mockStore({}, [], () => {});
+
+    expect(store.subscribe(() => {})).toBe(null);
+  });
 });
