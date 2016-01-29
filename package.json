@@ -20,11 +20,11 @@
   "devDependencies": {
     "babel": "^5.8.29",
     "mocha": "^2.3.3",
-    "redux": "^3.0.4",
     "rimraf": "^2.4.3",
     "sinon": "^1.17.2"
   },
   "dependencies": {
+    "redux": "^3.0.4",
     "expect": "^1.12.2"
   }
 }
