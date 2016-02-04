@@ -38,12 +38,13 @@ export default function configureStore(middlewares = []) {
               expect(action).toEqual(expectedAction);
             }
 
-            if (done && !expectedActions.length) {
+            if (done && !expectedActions.length && !self.error) {
               done();
             }
 
             return action;
           } catch (e) {
+            self.error = true;
             if (done) {
               done(e);
             }
