@@ -2,7 +2,7 @@
 
 # redux-mock-store
 
-A mock store for your testing your redux async action creators and middleware
+A mock store for your testing your redux async action creators and middleware. The mock store will store the dispatched actions in an array to be used in your tests.
 
 ## Install
 
@@ -17,38 +17,58 @@ npm install redux-mock-store --save-dev
 // actions.test.js
 
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
-const middlewares = []; // add your middlewares like `redux-thunk`
+const middlewares = [thunk]; // add your middlewares like `redux-thunk`
 const mockStore = configureStore(middlewares);
 
-// Test in mocha
-it('should dispatch action', (done) => {
+// Test example with mocha and expect
+it('should dispatch action', () => {
   const getState = {}; // initial state of the store
-  const action = { type: 'ADD_TODO' };
-  const expectedActions = [action];
+  const addTodo = { type: 'ADD_TODO' };
 
-  const store = mockStore(getState, expectedActions, done);
-  store.dispatch(action);
+  const store = mockStore(getState);
+  store.dispatch(addTodo);
+
+  const actions = store.getActions();
+
+  expect(addTodo).toEqual([addTodo]);
+});
+
+// Promise test example with mocha and expect
+it('should execute promise', () => {
+    function success() {
+      return {
+        type: 'FETCH_DATA_SUCCESS'
+      };
+    }
+
+    function fetchData() {
+      return dispatch => {
+        return fetch('/users.json') // Some async action with promise
+          .then(() => dispatch(success()));
+      };
+    }
+
+    const store = mockStore({});
+
+    store.dispatch(fetchData())
+      .then(() => {
+        expect(store.getActions()[0]).toEqual(success())
+        done();
+      });
 })
 ```
 
-Custom test function for actions can also be supplied, useful if your actions have a dynamic
-part.
+## API
 
-```js
-// Test in mocha
-it('should dispatch action', (done) => {
-  const getState = {}; // initial state of the store
-  const action = { type: 'ADD_TODO' };
-  const expectedActions = [(incomingAction) => {
-    if (incomingAction.type !== 'ADD_TODO') {
-      throw Error('Expected action of type ADD_TODO');
-    }
-  }];
-
-  const store = mockStore(getState, expectedActions, done);
-  store.dispatch(action);
-})
+```
+- configureStore(middlewares?: Array) => mockStore: function
+- mockStore(getState?: Object,Function) => store: Function
+- store.dispatch(action) => action
+- store.getState() => state: Object
+- store.getActions() => actions: Array
+- store.clearActions()
 ```
 
 ## License

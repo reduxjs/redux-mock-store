@@ -1,37 +1,17 @@
 import expect from 'expect';
 import sinon from 'sinon';
+import thunk from 'redux-thunk';
+
 import mockMiddleware from './mock/middleware';
-import configureStore from '../src/index';
+import configureStore from '../src';
 
-const mockStore = configureStore([]);
+const mockStore = configureStore([thunk]);
 
-describe('Redux mockStore', () => {
-
-  it('throws an error if expectedActions is not provided', () => {
-    expect(() => mockStore({}))
-    .toThrow(/expectedActions/);
-  });
-
-  it('converts a single expected action to an array', () => {
-    const store = mockStore({}, {});
-
-    expect(store).toExist();
-  });
-
-  it('throws an error if done is not a function or undefined', () => {
-    expect(() => mockStore({}, [], {}))
-    .toThrow(/done/);
-  });
-
-  it('returns the store if done is valid', () => {
-    const store = mockStore({}, [], () => {});
-
-    expect(store).toExist();
-  });
+describe('redux-mock-store', () => {
 
   it('calls getState if it is a function', () => {
     const getState = sinon.spy();
-    const store = mockStore(getState, [], () => {});
+    const store = mockStore(getState, []);
 
     store.getState();
     expect(getState.called).toBe(true);
@@ -39,102 +19,89 @@ describe('Redux mockStore', () => {
 
   it('returns the initial state', () => {
     const initialState = { items: [], count: 0 };
-    const store = mockStore(initialState, [], () => {});
+    const store = mockStore(initialState);
 
-    expect(store.getState()).toBe(initialState);
+    expect(store.getState()).toEqual(initialState);
   });
 
-  it('should return if the tests is successful', (done) => {
+  it('should return if the tests is successful', () => {
     const action = { type: 'ADD_ITEM' };
-    const store = mockStore({}, [action], done);
+    const store = mockStore({});
 
     store.dispatch(action);
+
+    const [first] = store.getActions();
+    expect(first).toBe(action);
   });
 
-  it('handles actions that return functions', () => {
-    const action = { type: 'ADD_ITEM' };
-    const store = mockStore({}, [action]);
 
-    store.dispatch(
-      ({ dispatch }) => dispatch(action)
-    );
+  it('handles async actions', (done) => {
+    function increment() {
+      return {
+        type: 'INCREMENT_COUNTER'
+      };
+    }
+
+    function incrementAsync() {
+      return dispatch => {
+        return Promise.resolve()
+          .then(() => dispatch(increment()));
+      };
+    }
+
+    const store = mockStore({});
+
+    store.dispatch(incrementAsync())
+      .then(() => {
+        expect(store.getActions()[0]).toEqual(increment())
+        done();
+      });
   });
 
-  it('handles async actions', done => {
-    const clock = sinon.useFakeTimers();
-    const action = async ({ dispatch }) => {
-      const value = await Promise.resolve({ type: 'ASYNC' })
-      dispatch(value)
-    };
-    const store = mockStore({}, [{ type: 'ASYNC' }], done);
-    store.dispatch(action);
-    clock.tick(1);
-    clock.restore();
-  });
-
-  it('should call the middleware', (done) => {
+  it('should call the middleware', () => {
     const spy = sinon.spy();
     const middlewares = [mockMiddleware(spy)];
     const mockStoreWithMiddleware = configureStore(middlewares);
     const action = { type: 'ADD_ITEM' };
 
-    const store = mockStoreWithMiddleware({}, [action], done);
+    const store = mockStoreWithMiddleware();
     store.dispatch(action);
     expect(spy.called).toBe(true);
   });
 
-  it('should use test function instead of matching action if supplied', (done) => {
+  it('should handle when test function throws an error', (done) => {
+    const store = mockStore({});
+    const error = { error: 'Something went wrong' };
+
+    store.dispatch(() => Promise.reject(error))
+      .catch(err => {
+        expect(err).toEqual(error);
+        done();
+      })
+  });
+
+  it('clears the actions', () => {
     const action = { type: 'ADD_ITEM' };
-    const action2 = { type: 'SET_TIMESTAMP', stamp: Date.now() };
-    const action3 = { type: 'DELETE_ITEM' };
-    const store = mockStore({}, [
-      action,
-      (a) => {
-        expect(a.type).toBe('SET_TIMESTAMP');
-      },
-      action3
-    ], done);
+    const store = mockStore({});
 
     store.dispatch(action);
-    store.dispatch(action2);
-    store.dispatch(action3);
+    expect(store.getActions()).toEqual([action]);
+
+    store.clearActions();
+    expect(store.getActions()).toEqual([]);
+  })
+
+  it('handles multiple actions', () => {
+    const store = mockStore();
+    const actions = [
+      { type: 'ADD_ITEM' },
+      { type: 'REMOVE_ITEM' }
+    ];
+
+    store.dispatch(actions[0]);
+    store.dispatch(actions[1]);
+
+    expect(store.getActions()).toEqual(actions);
   });
 
-  it('should handle when test function throws an error', (done) => {
-    const action = { type: 'ADD_ITEM' };
-    const store = mockStore({}, [(incomingAction) => {
-      if (incomingAction.type !== 'ADD_TODO') {
-        throw Error('Expected action of type ADD_TODO');
-      }
-    }], (err) => {
-      expect(err.message).toBe('Expected action of type ADD_TODO');
-      done();
-    });
-
-    expect(() => store.dispatch(action)).toThrow('Expected action of type ADD_TODO');
-  });
-
-  it('handles multiple actions', done => {
-    const store = mockStore({}, [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }], (err) => {
-      expect(err.actual.type).toBe('UNEXPECTED_ACTION');
-      expect(err.expected.type).toBe('ADD_ITEM');
-      done();
-    });
-
-    try {
-      store.dispatch({ type: 'UNEXPECTED_ACTION' });
-      store.dispatch({ type: 'REMOVE_ITEM' });
-    } catch (e) {
-      expect(e.actual.type).toBe('UNEXPECTED_ACTION');
-      expect(e.expected.type).toBe('ADD_ITEM');
-    }
-  });
-
-  it('does not modify the expectedActions when dispatching', () => {
-    let expectedActions = [{ type: 'ADD_ITEM' }, { type: 'REMOVE_ITEM' }];
-    const store = mockStore({}, expectedActions);
-    store.dispatch({ type: 'ADD_ITEM' });
-    store.dispatch({ type: 'REMOVE_ITEM' });
-    expect(expectedActions.length).toEqual(2);
-  });
 });
