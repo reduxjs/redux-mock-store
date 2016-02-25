@@ -32,7 +32,7 @@ it('should dispatch action', () => {
 
   const actions = store.getActions();
 
-  expect(addTodo).toEqual([addTodo]);
+  expect(actions).toEqual([addTodo]);
 });
 
 // Promise test example with mocha and expect
