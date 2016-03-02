@@ -36,7 +36,7 @@ it('should dispatch action', () => {
 });
 
 // Promise test example with mocha and expect
-it('should execute promise', () => {
+it('should execute promise', (done) => {
     function success() {
       return {
         type: 'FETCH_DATA_SUCCESS'
