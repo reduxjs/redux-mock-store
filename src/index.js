@@ -45,7 +45,11 @@ export default function configureStore(middlewares = []) {
             return action;
           } catch (e) {
             if (done) {
-              done(e);
+              if (isFunction(done.fail)) {
+                done.fail(e);
+              } else {
+                done(e);
+              }
             }
             throw e;
           }
