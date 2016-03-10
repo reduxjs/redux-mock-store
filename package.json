@@ -19,12 +19,11 @@
   "homepage": "https://github.com/arnaudbenard/redux-mock-store#readme",
   "devDependencies": {
     "babel": "^5.8.29",
+    "expect": "^1.12.2",
     "mocha": "^2.3.3",
     "redux": "^3.0.4",
+    "redux-thunk": "^2.0.1",
     "rimraf": "^2.4.3",
     "sinon": "^1.17.2"
-  },
-  "dependencies": {
-    "expect": "^1.12.2"
   }
 }
