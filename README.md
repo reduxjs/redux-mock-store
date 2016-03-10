@@ -4,6 +4,10 @@
 
 A mock store for your testing your redux async action creators and middleware. The mock store will store the dispatched actions in an array to be used in your tests.
 
+## Old version documentation (`< 1.x.x`)
+
+https://github.com/arnaudbenard/redux-mock-store/blob/v0.0.6/README.md
+
 ## Install
 
 ```
