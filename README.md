@@ -73,6 +73,7 @@ it('should execute promise', (done) => {
 - store.getState() => state: Object
 - store.getActions() => actions: Array
 - store.clearActions()
+- store.subscribe()
 ```
 
 ## License
