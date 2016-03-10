@@ -26,6 +26,10 @@ export default function configureStore(middlewares=[]) {
 
         clearActions() {
           actions = [];
+        },
+
+        subscribe() {
+          return null;
         }
       };
 
