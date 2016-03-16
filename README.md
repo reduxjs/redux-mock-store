@@ -59,8 +59,7 @@ it('should execute promise', (done) => {
     store.dispatch(fetchData())
       .then(() => {
         expect(store.getActions()[0]).toEqual(success())
-        done();
-      });
+      }).then(done).catch(done);
 })
 ```
 
