@@ -20,7 +20,7 @@ export default function configureStore(middlewares=[]) {
         dispatch(action) {
           actions.push(action);
 
-          return action;
+          return Promise.resolve(action);
         },
 
         clearActions() {
