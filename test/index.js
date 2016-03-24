@@ -69,6 +69,18 @@ describe('redux-mock-store', () => {
     expect(spy.called).toBe(true);
   });
 
+  it('should be ok with middlewares that dispatch', () => {
+    const spy = sinon.spy();
+    const dispatchAction = true
+    const middlewares = [mockMiddleware(spy, dispatchAction)];
+    const mockStoreWithMiddleware = configureStore(middlewares);
+    const action = { type: 'ADD_ITEM' };
+
+    const store = mockStoreWithMiddleware();
+    store.dispatch(action);
+    expect(spy.called).toBe(true);
+  })
+
   it('should handle when test function throws an error', (done) => {
     const store = mockStore({});
     const error = { error: 'Something went wrong' };
