@@ -7,7 +7,7 @@ declare module '~redux-mock-store/lib' {
 		type mockStore<T> = (state?: T) => IStore<T>;
 
 		type IStore<T> = {
-			dispatch(action: Redux.IAction | Function): Promise<Redux.IAction>
+			dispatch(any): any
 			getState(): T
 			getActions(): Object[]
 			clearActions(): void
