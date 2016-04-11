@@ -1,7 +1,7 @@
 declare module '~redux-mock-store/lib' {
 	import * as Redux from 'redux'
 
-	function createMockStore<T>(middlewares?: Redux.IMiddleware<T>[]): createMockStore.mockStore<T>
+	function createMockStore<T>(middlewares?: Redux.Middleware[]): createMockStore.mockStore<T>
 
 	namespace createMockStore {
 		type mockStore<T> = (state?: T) => IStore<T>;
