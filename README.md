@@ -40,7 +40,7 @@ it('should dispatch action', () => {
 });
 
 // Promise test example with mocha and expect
-it('should execute promise', (done) => {
+it('should execute promise', () => {
     function success() {
       return {
         type: 'FETCH_DATA_SUCCESS'
@@ -56,10 +56,11 @@ it('should execute promise', (done) => {
 
     const store = mockStore({});
 
-    store.dispatch(fetchData())
+    // Return the promise
+    return store.dispatch(fetchData())
       .then(() => {
         expect(store.getActions()[0]).toEqual(success())
-      }).then(done).catch(done);
+      });
 })
 ```
 
