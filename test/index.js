@@ -34,7 +34,6 @@ describe('redux-mock-store', () => {
     expect(first).toBe(action);
   });
 
-
   it('handles async actions', (done) => {
     function increment() {
       return {
@@ -56,6 +55,28 @@ describe('redux-mock-store', () => {
         expect(store.getActions()[0]).toEqual(increment())
         done();
       });
+  });
+
+  it('handles thunk actions', (done) => {
+    function increment() {
+      return {
+        type: 'INCREMENT_COUNTER'
+      };
+    }
+
+    function incrementAsync() {
+      return dispatch => {
+        return dispatch(increment());
+      };
+    }
+    const store = mockStore({});
+
+    store.dispatch(incrementAsync())
+      .then(() => {
+        expect(store.getActions().length).toEqual(1)
+        expect(store.getActions()[0]).toEqual(increment())
+      })
+      .then(done);
   });
 
   it('should call the middleware', () => {
