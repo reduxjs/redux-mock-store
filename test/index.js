@@ -104,9 +104,14 @@ describe('redux-mock-store', () => {
     expect(store.getActions()).toEqual(actions);
   });
 
-  it('has empty subscribe method', () => {
+  it('subscribes to dispatched actions', (done) => {
     const store = mockStore();
-
-    expect(store.subscribe()).toEqual(null);
+    const action = { type: 'ADD_ITEM' };
+    
+    store.subscribe(() => {
+      expect(store.getActions()[0]).toEqual(action);
+      done();
+    });
+    store.dispatch(action);
   });
 });

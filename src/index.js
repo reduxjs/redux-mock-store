@@ -7,6 +7,7 @@ export default function configureStore(middlewares=[]) {
   return function mockStore(getState={}) {
     function mockStoreWithoutMiddleware() {
       let actions = [];
+      let listeners = [];
 
       const self = {
         getState() {
@@ -19,6 +20,10 @@ export default function configureStore(middlewares=[]) {
 
         dispatch(action) {
           actions.push(action);
+          
+          for (let i = 0; i < listeners.length; i++) {
+            listeners[i]();
+          }
 
           return action;
         },
@@ -27,7 +32,10 @@ export default function configureStore(middlewares=[]) {
           actions = [];
         },
 
-        subscribe() {
+        subscribe(cb) {
+          if (isFunction(cb)) {
+            listeners.push(cb);
+          }
           return null;
         }
       };
