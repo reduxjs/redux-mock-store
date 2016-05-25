@@ -24,6 +24,24 @@ describe('redux-mock-store', () => {
     expect(store.getState()).toEqual(initialState);
   });
 
+   it('should throw an error when action is undefined', () => {
+    const store = mockStore({});
+
+    expect(() => { store.dispatch(undefined); }).toThrow(
+      'Actions may not be an undefined.'
+    );
+  });
+
+  it('should throw an error when action type is undefined', () => {
+    const action = { types: 'ADD_ITEM' };
+    const store = mockStore({});
+
+    expect(() => { store.dispatch(action); }).toThrow(
+      'Actions may not have an undefined "type" property. ' +
+      'Have you misspelled a constant?'
+    );
+  });
+
   it('should return if the tests is successful', () => {
     const action = { type: 'ADD_ITEM' };
     const store = mockStore({});
