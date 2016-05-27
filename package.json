@@ -1,6 +1,6 @@
 {
   "name": "redux-mock-store",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "lib/index.js",
   "typings": "./index.d.ts",
