@@ -1,29 +1,24 @@
-declare module '~redux-mock-store/lib' {
-	import * as Redux from 'redux'
+// Type definitions for Redux Mock Store v1.0.2
+// Project: https://github.com/arnaudbenard/redux-mock-store
+// Definitions by: Braulio Díez <https://github.com/brauliodiez/>>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
 
-	function createMockStore<T>(middlewares?: Redux.Middleware[]): createMockStore.mockStore<T>
+// How to import it:
+// import configureStore = require('redux-mock-store');
+// Usage:
+// const mockStore = configureStore();
 
-	namespace createMockStore {
-		type mockStore<T> = (state?: T) => IStore<T>;
+declare module "redux-mock-store" {
+    import {Store} from 'redux';
 
-		type IStore<T> = {
-			dispatch(any): any
-			getState(): T
-			getActions(): Object[]
-			clearActions(): void
-			subscribe(): Function
-		}
-	}
+    interface MockStore extends Store {
+        getState(): any;
+        getActions(): Array<any>;
+        dispatch(action: any): any;
+        clearActions(): void;
+        subscribe(): any;
+    }
 
-	export = createMockStore
-}
-
-declare module 'redux-mock-store/lib' {
-	import main = require('~redux-mock-store/lib')
-	export = main
-}
-
-declare module 'redux-mock-store' {
-	import main = require('~redux-mock-store/lib')
-	export = main
+    function configureStore(...args: any[]) : (...args: any[]) => MockStore;
+    export = configureStore;
 }
