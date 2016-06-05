@@ -19,6 +19,19 @@ export default function configureStore(middlewares=[]) {
         },
 
         dispatch(action) {
+          if (typeof action === 'undefined') {
+            throw new Error(
+              'Actions may not be an undefined.'
+            );
+          }
+
+          if (typeof action.type === 'undefined') {
+            throw new Error(
+              'Actions may not have an undefined "type" property. ' +
+              'Have you misspelled a constant?'
+            );
+          }
+
           actions.push(action);
           
           for (let i = 0; i < listeners.length; i++) {
