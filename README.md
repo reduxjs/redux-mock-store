@@ -1,5 +1,7 @@
 [![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
 
+![npm](https://nodei.co/npm/redux-mock-store.png?downloads=true&downloadRank=true&stars=true)
+
 # redux-mock-store
 
 A mock store for your testing your redux async action creators and middleware. The mock store will store the dispatched actions in an array to be used in your tests.
