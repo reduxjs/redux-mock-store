@@ -38,7 +38,9 @@ describe('redux-mock-store', () => {
 
     expect(() => { store.dispatch(action); }).toThrow(
       'Actions may not have an undefined "type" property. ' +
-      'Have you misspelled a constant?'
+      'Have you misspelled a constant? '+
+      'Action: ' +
+      '{"types":"ADD_ITEM"}'
     );
   });
 
