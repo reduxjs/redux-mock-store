@@ -8,15 +8,15 @@
 // Usage:
 // const mockStore = configureStore();
 
-import {Store, Middleware, Unsubscribe} from 'redux';
+import {Store} from 'redux';
 
-interface MockStore<S> extends Store<S> {
-    getState():S;
+interface MockStore extends Store {
+    getState():any;
     getActions():Array<any>;
     dispatch(action:any):any;
     clearActions():void;
-    subscribe(listener: Function):Unsubscribe;
+    subscribe():any;
 }
 
-declare function configureStore<S>(...middlewares:any[]):(...args:any[]) => MockStore<S>;
+declare function configureStore(...args:any[]):(...args:any[]) => MockStore;
 export = configureStore;
