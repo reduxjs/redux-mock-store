@@ -28,7 +28,9 @@ export default function configureStore(middlewares=[]) {
           if (typeof action.type === 'undefined') {
             throw new Error(
               'Actions may not have an undefined "type" property. ' +
-              'Have you misspelled a constant?'
+              'Have you misspelled a constant? ' +
+              'Action: ' +
+              JSON.stringify(action)
             );
           }
 
