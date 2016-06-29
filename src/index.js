@@ -50,7 +50,6 @@ export default function configureStore(middlewares=[]) {
             listeners.push(cb);
           }
           const index = listeners.indexOf(cb)
-          if (index < 0) { throw new Error('couldn\'t find callback in array') }
           return () => listeners.splice(index, 1);
         }
       };
