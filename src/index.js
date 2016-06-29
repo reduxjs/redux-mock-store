@@ -49,8 +49,11 @@ export default function configureStore(middlewares=[]) {
           if (isFunction(cb)) {
             listeners.push(cb);
           }
-          const index = listeners.indexOf(cb)
-          return () => listeners.splice(index, 1);
+          return () => {
+            const index = listeners.indexOf(cb);
+            if (index < 0) { return; }
+            listeners.splice(index, 1)
+          };
         }
       };
 
