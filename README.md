@@ -30,10 +30,10 @@ const mockStore = configureStore(middlewares);
 
 // Test example with mocha and expect
 it('should dispatch action', () => {
-  const getState = {}; // initial state of the store
+  const initialState = {};
   const addTodo = { type: 'ADD_TODO' };
 
-  const store = mockStore(getState);
+  const store = mockStore(initialState);
   store.dispatch(addTodo);
 
   const actions = store.getActions();
