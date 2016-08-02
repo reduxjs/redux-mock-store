@@ -10,7 +10,7 @@
 
 import {Store} from 'redux';
 
-interface MockStore extends Store {
+interface MockStore<StoreState> extends Store<StoreState> {
     getState():any;
     getActions():Array<any>;
     dispatch(action:any):any;
@@ -18,5 +18,5 @@ interface MockStore extends Store {
     subscribe():any;
 }
 
-declare function configureStore(...args:any[]):(...args:any[]) => MockStore;
+declare function configureStore<StoreState>(...args:any[]):(...args:any[]) => MockStore<StoreState>;
 export = configureStore;
