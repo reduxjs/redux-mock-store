@@ -127,11 +127,29 @@ describe('redux-mock-store', () => {
   it('subscribes to dispatched actions', (done) => {
     const store = mockStore();
     const action = { type: 'ADD_ITEM' };
-    
+
     store.subscribe(() => {
       expect(store.getActions()[0]).toEqual(action);
       done();
     });
+    store.dispatch(action);
+  });
+
+  it('can unsubscribe subscribers', function (done) {
+    const store = mockStore();
+    const action = { type: 'ADD_ITEM' };
+    const waitForMS = 25;
+    const testWaitsAnotherMS = 25;
+
+    this.timeout(waitForMS + testWaitsAnotherMS);
+    const timeoutId = setTimeout(done, waitForMS);
+
+    const unsubscribe = store.subscribe(() => {
+      clearTimeout(timeoutId);
+      done(new Error('should never be called'));
+    });
+
+    unsubscribe();
     store.dispatch(action);
   });
 });

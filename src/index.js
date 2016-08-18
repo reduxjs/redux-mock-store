@@ -35,7 +35,7 @@ export default function configureStore(middlewares=[]) {
           }
 
           actions.push(action);
-          
+
           for (let i = 0; i < listeners.length; i++) {
             listeners[i]();
           }
@@ -51,7 +51,13 @@ export default function configureStore(middlewares=[]) {
           if (isFunction(cb)) {
             listeners.push(cb);
           }
-          return null;
+          return () => {
+            const index = listeners.indexOf(cb);
+            if (index < 0) {
+              return;
+            }
+            listeners.splice(index, 1);
+          };
         }
       };
 
