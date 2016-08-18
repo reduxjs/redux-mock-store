@@ -6,6 +6,8 @@
   "typings": "./index.d.ts",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
+    "lint": "standard src/*.js",
+    "pretest": "npm run lint",
     "test": "mocha --compilers js:babel/register --reporter spec test/*.js"
   },
   "repository": {
@@ -25,6 +27,7 @@
     "redux": "^3.0.4",
     "redux-thunk": "^2.0.1",
     "rimraf": "^2.4.3",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "standard": "^7.1.2"
   }
 }
