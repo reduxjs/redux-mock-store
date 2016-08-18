@@ -1,28 +1,27 @@
-import { applyMiddleware } from 'redux';
+import { applyMiddleware } from 'redux'
 
-const isFunction = arg => typeof arg === 'function';
+const isFunction = arg => typeof arg === 'function'
 
-export default function configureStore(middlewares=[]) {
-
-  return function mockStore(getState={}) {
-    function mockStoreWithoutMiddleware() {
-      let actions = [];
-      let listeners = [];
+export default function configureStore (middlewares = []) {
+  return function mockStore (getState = {}) {
+    function mockStoreWithoutMiddleware () {
+      let actions = []
+      let listeners = []
 
       const self = {
-        getState() {
-          return isFunction(getState) ? getState() : getState;
+        getState () {
+          return isFunction(getState) ? getState() : getState
         },
 
-        getActions() {
-          return actions;
+        getActions () {
+          return actions
         },
 
-        dispatch(action) {
+        dispatch (action) {
           if (typeof action === 'undefined') {
             throw new Error(
               'Actions may not be an undefined.'
-            );
+            )
           }
 
           if (typeof action.type === 'undefined') {
@@ -31,44 +30,45 @@ export default function configureStore(middlewares=[]) {
               'Have you misspelled a constant? ' +
               'Action: ' +
               JSON.stringify(action)
-            );
+            )
           }
 
-          actions.push(action);
+          actions.push(action)
 
           for (let i = 0; i < listeners.length; i++) {
-            listeners[i]();
+            listeners[i]()
           }
 
-          return action;
+          return action
         },
 
-        clearActions() {
-          actions = [];
+        clearActions () {
+          actions = []
         },
 
-        subscribe(cb) {
+        subscribe (cb) {
           if (isFunction(cb)) {
-            listeners.push(cb);
+            listeners.push(cb)
           }
-          return () => {
-            const index = listeners.indexOf(cb);
-            if (index < 0) {
-              return;
-            }
-            listeners.splice(index, 1);
-          };
-        }
-      };
 
-      return self;
+          return () => {
+            const index = listeners.indexOf(cb)
+
+            if (index < 0) {
+              return
+            }
+            listeners.splice(index, 1)
+          }
+        }
+      }
+
+      return self
     }
 
     const mockStoreWithMiddleware = applyMiddleware(
       ...middlewares
-    )(mockStoreWithoutMiddleware);
+    )(mockStoreWithoutMiddleware)
 
-    return mockStoreWithMiddleware();
-  };
-
+    return mockStoreWithMiddleware()
+  }
 }
