@@ -147,7 +147,7 @@ describe('redux-mock-store', () => {
       done(new Error('should never be called'));
     });
 
-    unsubscribe()
+    unsubscribe();
     store.dispatch(action);
   });
 });
