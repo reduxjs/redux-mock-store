@@ -75,6 +75,7 @@ it('should execute promise', () => {
 - mockStore(getState?: Object,Function) => store: Function
 - store.dispatch(action) => action
 - store.getState() => state: Object
+- store.setState(getState?: Object,Function)
 - store.getActions() => actions: Array
 - store.clearActions()
 - store.subscribe()
