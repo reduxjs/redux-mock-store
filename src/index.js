@@ -4,13 +4,25 @@ const isFunction = arg => typeof arg === 'function'
 
 export default function configureStore (middlewares = []) {
   return function mockStore (getState = {}) {
+    let state = getState
+
     function mockStoreWithoutMiddleware () {
       let actions = []
       let listeners = []
 
+      const executeListeners = () => {
+        for (let i = 0; i < listeners.length; i++) {
+          listeners[i]()
+        }
+      }
       const self = {
         getState () {
-          return isFunction(getState) ? getState() : getState
+          return isFunction(state) ? state() : state
+        },
+
+        setState (getState) {
+          state = getState
+          executeListeners()
         },
 
         getActions () {
@@ -35,9 +47,7 @@ export default function configureStore (middlewares = []) {
 
           actions.push(action)
 
-          for (let i = 0; i < listeners.length; i++) {
-            listeners[i]()
-          }
+          executeListeners()
 
           return action
         },

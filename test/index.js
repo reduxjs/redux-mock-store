@@ -152,4 +152,31 @@ describe('redux-mock-store', () => {
     unsubscribe();
     store.dispatch(action);
   });
+
+  it('updates the state', function () {
+    const initialState = Symbol();
+    const store = mockStore(initialState);
+
+    expect(store.getState()).toEqual(initialState);
+
+    const getState = Symbol();
+    store.setState(getState);
+
+    expect(store.getState()).toEqual(getState);
+  });
+
+  it('updating the state dispatches subscribers', function () {
+    const store = mockStore();
+    const listeners = [
+      sinon.spy(),
+      sinon.spy(),
+      sinon.spy()
+    ];
+
+    listeners.forEach(listener => store.subscribe(listener));
+
+    store.setState(Symbol());
+
+    listeners.forEach(listener => expect(listener.calledOnce).toBe(true))
+  });
 });

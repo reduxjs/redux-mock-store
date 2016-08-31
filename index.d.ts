@@ -12,6 +12,7 @@ import {Store} from 'redux';
 
 interface MockStore extends Store {
     getState():any;
+    setState(getState:any):void;
     getActions():Array<any>;
     dispatch(action:any):any;
     clearActions():void;
