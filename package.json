@@ -8,7 +8,7 @@
     "prepublish": "rimraf lib && babel src --out-dir lib",
     "lint": "standard src/*.js",
     "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel/register --reporter spec test/*.js"
+    "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/arnaudbenard/redux-mock-store#readme",
   "devDependencies": {
-    "babel": "^5.8.29",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
     "expect": "^1.12.2",
     "mocha": "^2.3.3",
     "redux": "^3.0.4",
