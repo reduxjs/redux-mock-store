@@ -3,7 +3,6 @@
   "version": "1.1.4",
   "description": "",
   "main": "lib/index.js",
-  "typings": "./index.d.ts",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
     "lint": "standard src/*.js",
