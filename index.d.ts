@@ -10,7 +10,7 @@
 
 import {Store} from 'redux';
 
-interface MockStore extends Store {
+interface MockStore extends Store<any> {
     getState():any;
     getActions():Array<any>;
     dispatch(action:any):any;
