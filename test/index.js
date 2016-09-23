@@ -152,4 +152,16 @@ describe('redux-mock-store', () => {
     unsubscribe();
     store.dispatch(action);
   });
+
+
+  it('has replace reducer function', () => {
+    const action = { type: 'ADD_ITEM' };
+    const store = mockStore({});
+
+    expect(()=>store.replaceReducer(()=>{}))
+    .toNotThrow('Expected the nextReducer to be a function.');
+    
+    expect(()=>store.replaceReducer(123))
+    .toThrow('Expected the nextReducer to be a function.');
+  })
 });
