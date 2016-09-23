@@ -78,6 +78,7 @@ it('should execute promise', () => {
 - store.getActions() => actions: Array
 - store.clearActions()
 - store.subscribe()
+- store.replaceReducer()
 ```
 
 ## License
