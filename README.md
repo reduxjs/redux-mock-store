@@ -71,14 +71,14 @@ it('should execute promise', () => {
 ## API
 
 ```
-- configureStore(middlewares?: Array) => mockStore: function
+- configureStore(middlewares?: Array) => mockStore: Function
 - mockStore(getState?: Object,Function) => store: Function
 - store.dispatch(action) => action
 - store.getState() => state: Object
 - store.getActions() => actions: Array
 - store.clearActions()
-- store.subscribe()
-- store.replaceReducer()
+- store.subscribe(callback: Function) => unsubscribe: Function
+- store.replaceReducer(nextReducer: Function)
 ```
 
 ## License
