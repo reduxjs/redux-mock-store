@@ -60,6 +60,7 @@ export default function configureStore (middlewares = []) {
             listeners.splice(index, 1)
           }
         },
+
         replaceReducer (nextReducer) {
           if (!isFunction(nextReducer)) {
             throw new Error('Expected the nextReducer to be a function.')
