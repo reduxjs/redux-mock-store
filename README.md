@@ -6,7 +6,7 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
-A mock store for testing your redux async action creators and middleware. The mock store will store the dispatched actions in an array to be used in your tests.
+A mock store for testing your redux async action creators and middleware. The mock store will create an array of dispatched actions which serve as an action log for tests.
 
 ## Install
 
