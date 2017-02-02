@@ -3,14 +3,15 @@ import { applyMiddleware } from 'redux'
 const isFunction = arg => typeof arg === 'function'
 
 export default function configureStore (middlewares = []) {
-  return function mockStore (getState = {}) {
+  return function mockStore (state = {}) {
     function mockStoreWithoutMiddleware () {
       let actions = []
       let listeners = []
+      let reducer = function(){};
 
       const self = {
         getState () {
-          return isFunction(getState) ? getState() : getState
+          return isFunction(state) ? state() : state
         },
 
         getActions () {
@@ -34,6 +35,7 @@ export default function configureStore (middlewares = []) {
           }
 
           actions.push(action)
+          state = reducer(state,action);
 
           for (let i = 0; i < listeners.length; i++) {
             listeners[i]()
@@ -65,6 +67,7 @@ export default function configureStore (middlewares = []) {
           if (!isFunction(nextReducer)) {
             throw new Error('Expected the nextReducer to be a function.')
           }
+          reducer = nextReducer;
         }
       }
 
