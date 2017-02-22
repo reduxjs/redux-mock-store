@@ -1,7 +1,7 @@
 {
   "name": "redux-mock-store",
   "version": "1.2.2",
-  "description": "",
+  "description": "A mock store for testing your redux async action creators and middleware",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
