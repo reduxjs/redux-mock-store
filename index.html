@@ -64,6 +64,7 @@ it('should dispatch action', () => {
 import thunk from 'redux-thunk'
 
 const middlewares = [thunk] // add your middlewares like `redux-thunk`
+const mockStore = configureStore(middlewares)
 
 // You would import the action from your codebase in a real scenario
 function success() {
