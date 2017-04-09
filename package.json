@@ -1,34 +1,34 @@
 {
-  "name": "redux-mock-store",
-  "version": "1.2.2",
-  "description": "A mock store for testing your redux async action creators and middleware",
-  "main": "lib/index.js",
-  "scripts": {
-    "prepublish": "rimraf lib && babel src --out-dir lib",
-    "lint": "standard src/*.js test/*.js",
-    "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arnaudbenard/redux-mock-store.git"
-  },
-  "author": "Arnaud Benard <arnaudm.benard@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/arnaudbenard/redux-mock-store/issues"
-  },
-  "homepage": "https://github.com/arnaudbenard/redux-mock-store#readme",
-  "devDependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-core": "^6.13.2",
-    "babel-preset-es2015": "^6.13.2",
-    "expect": "^1.12.2",
-    "mocha": "^2.3.3",
-    "redux": "^3.0.4",
-    "redux-thunk": "^2.0.1",
-    "rimraf": "^2.4.3",
-    "sinon": "^1.17.2",
-    "standard": "^7.1.2"
-  }
+	"name": "redux-mock-store",
+	"version": "1.2.3",
+	"description": "A mock store for testing your redux async action creators and middleware",
+	"main": "lib/index.js",
+	"scripts": {
+		"prepublish": "rimraf lib && babel src --out-dir lib",
+		"lint": "standard src/*.js test/*.js",
+		"pretest": "npm run lint",
+		"test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/arnaudbenard/redux-mock-store.git"
+	},
+	"author": "Arnaud Benard <arnaudm.benard@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/arnaudbenard/redux-mock-store/issues"
+	},
+	"homepage": "https://github.com/arnaudbenard/redux-mock-store#readme",
+	"devDependencies": {
+		"babel-cli": "^6.11.4",
+		"babel-core": "^6.13.2",
+		"babel-preset-es2015": "^6.13.2",
+		"expect": "^1.12.2",
+		"mocha": "^2.3.3",
+		"redux": "^3.0.4",
+		"redux-thunk": "^2.0.1",
+		"rimraf": "^2.4.3",
+		"sinon": "^1.17.2",
+		"standard": "^7.1.2"
+	}
 }
