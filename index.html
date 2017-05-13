@@ -49,7 +49,7 @@ it('should dispatch action', () => {
   const store = mockStore(initialState)
 
   // Dispatch the action
-  store.dispatch(addTodo)
+  store.dispatch(addTodo())
 
   // Test if your store dispatched the expected actions
   const actions = store.getActions()
