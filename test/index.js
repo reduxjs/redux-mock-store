@@ -11,7 +11,7 @@ const mockStore = configureStore([thunk])
 describe('redux-mock-store', () => {
   it('calls getState if it is a function', () => {
     const getState = sinon.spy()
-    const store = mockStore(getState, [])
+    const store = mockStore(getState)
 
     store.getState()
     expect(getState.called).toBe(true)
