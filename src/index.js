@@ -18,6 +18,10 @@ export default function configureStore (middlewares = []) {
         },
 
         dispatch (action) {
+          if (typeof action === 'function') {
+            return action.call(this, this.dispatch);
+          }
+          
           if (typeof action === 'undefined') {
             throw new Error(
               'Actions may not be an undefined.'
