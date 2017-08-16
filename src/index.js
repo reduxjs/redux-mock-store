@@ -10,7 +10,7 @@ export default function configureStore (middlewares = []) {
 
       const self = {
         getState () {
-          return isFunction(getState) ? getState() : getState
+          return isFunction(getState) ? getState(actions) : getState
         },
 
         getActions () {
