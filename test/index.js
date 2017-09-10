@@ -9,19 +9,35 @@ import configureStore from '../src'
 const mockStore = configureStore([thunk])
 
 describe('redux-mock-store', () => {
-  it('calls getState if it is a function', () => {
-    const getState = sinon.spy()
-    const store = mockStore(getState)
+  describe('getState', () => {
+    describe('if it is a function', () => {
+      it('returns the result of getState call', () => {
+        const getState = sinon.spy()
+        const store = mockStore(getState)
 
-    store.getState()
-    expect(getState.called).toBe(true)
-  })
+        store.getState()
+        expect(getState.called).toBe(true)
+      })
 
-  it('returns the initial state', () => {
-    const initialState = { items: [], count: 0 }
-    const store = mockStore(initialState)
+      it('returns the result of getState call with actions', () => {
+        const action = { type: 'ADD_ITEM' }
+        const getState = sinon.spy()
+        const store = mockStore(getState)
 
-    expect(store.getState()).toEqual(initialState)
+        store.dispatch(action)
+        store.getState()
+        expect(getState.calledWith([action])).toBe(true)
+        expect(getState.calledWith(store.getActions())).toBe(true)
+      })
+    })
+    describe('if it is not a function', () => {
+      it('returns the initial state', () => {
+        const initialState = { items: [], count: 0 }
+        const store = mockStore(initialState)
+
+        expect(store.getState()).toEqual(initialState)
+      })
+    })
   })
 
   it('should throw an error when action is undefined', () => {
