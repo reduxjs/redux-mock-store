@@ -6,7 +6,7 @@ import thunk from 'redux-thunk'
 import mockMiddleware from './mock/middleware'
 import configureStore from '../src'
 
-const mockStore = configureStore([thunk])
+const mockStore = configureStore()
 
 describe('redux-mock-store', () => {
   describe('getState', () => {
@@ -40,11 +40,21 @@ describe('redux-mock-store', () => {
     })
   })
 
-  it('should throw an error when action is undefined', () => {
+  it('should throw an error when the action is undefined', () => {
     const store = mockStore({})
 
     expect(() => { store.dispatch(undefined) }).toThrow(
-      'Actions may not be an undefined.'
+      'Actions must be plain objects. ' +
+      'Use custom middleware for async actions.'
+    )
+  })
+
+  it('should throw an error when the action is not a plain object', () => {
+    const store = mockStore({})
+
+    expect(() => { store.dispatch(() => {}) }).toThrow(
+      'Actions must be plain objects. ' +
+      'Use custom middleware for async actions.'
     )
   })
 
@@ -68,51 +78,6 @@ describe('redux-mock-store', () => {
 
     const [first] = store.getActions()
     expect(first).toBe(action)
-  })
-
-  it('handles async actions', (done) => {
-    function increment () {
-      return {
-        type: 'INCREMENT_COUNTER'
-      }
-    }
-
-    function incrementAsync () {
-      return dispatch => {
-        return Promise.resolve()
-          .then(() => dispatch(increment()))
-      }
-    }
-
-    const store = mockStore({})
-
-    store.dispatch(incrementAsync())
-      .then(() => {
-        expect(store.getActions()[0]).toEqual(increment())
-        done()
-      })
-  })
-
-  it('should call the middleware', () => {
-    const spy = sinon.spy()
-    const middlewares = [mockMiddleware(spy)]
-    const mockStoreWithMiddleware = configureStore(middlewares)
-    const action = { type: 'ADD_ITEM' }
-
-    const store = mockStoreWithMiddleware()
-    store.dispatch(action)
-    expect(spy.called).toBe(true)
-  })
-
-  it('should handle when test function throws an error', (done) => {
-    const store = mockStore({})
-    const error = { error: 'Something went wrong' }
-
-    store.dispatch(() => Promise.reject(error))
-      .catch(err => {
-        expect(err).toEqual(error)
-        done()
-      })
   })
 
   it('clears the actions', () => {
@@ -176,5 +141,53 @@ describe('redux-mock-store', () => {
 
     expect(() => store.replaceReducer(123))
       .toThrow('Expected the nextReducer to be a function.')
+  })
+
+  describe('store with middleware', () => {
+    const mockStoreWithMiddleware = configureStore([thunk])
+    it('handles async actions', (done) => {
+      function increment () {
+        return {
+          type: 'INCREMENT_COUNTER'
+        }
+      }
+
+      function incrementAsync () {
+        return dispatch => {
+          return Promise.resolve()
+            .then(() => dispatch(increment()))
+        }
+      }
+
+      const store = mockStoreWithMiddleware({})
+
+      store.dispatch(incrementAsync())
+        .then(() => {
+          expect(store.getActions()[0]).toEqual(increment())
+          done()
+        })
+    })
+
+    it('should handle when test function throws an error', (done) => {
+      const store = mockStoreWithMiddleware({})
+      const error = { error: 'Something went wrong' }
+
+      store.dispatch(() => Promise.reject(error))
+        .catch(err => {
+          expect(err).toEqual(error)
+          done()
+        })
+    })
+
+    it('should call the middleware', () => {
+      const spy = sinon.spy()
+      const middlewares = [mockMiddleware(spy)]
+      const mockStoreWithCustomMiddleware = configureStore(middlewares)
+      const action = { type: 'ADD_ITEM' }
+
+      const store = mockStoreWithCustomMiddleware()
+      store.dispatch(action)
+      expect(spy.called).toBe(true)
+    })
   })
 })

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
-    "lint": "standard src/*.js test/*.js",
+    "lint": "standard src/*.js test/*.js --fix",
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
   },
@@ -30,5 +30,8 @@
     "rimraf": "^2.4.3",
     "sinon": "^1.17.2",
     "standard": "^7.1.2"
+  },
+  "dependencies": {
+    "lodash.isplainobject": "^4.0.6"
   }
 }
