@@ -177,4 +177,56 @@ describe('redux-mock-store', () => {
     expect(() => store.replaceReducer(123))
       .toThrow('Expected the nextReducer to be a function.')
   })
+
+  it('get an action by a custom function', () => {
+    const action = { type: 'ADD_ITEM', count: 3 }
+    const action2 = { type: 'ADD_ITEM', count: 4 }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    store.dispatch(action2)
+    expect(store.getAction(a => a.count === 3)).toEqual(action)
+  })
+
+  it('get undefined if the action does not exist', () => {
+    const action = { type: 'ADD_ITEM', count: 3 }
+    const action2 = { type: 'ADD_ITEM', count: 4 }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    store.dispatch(action2)
+    expect(store.getAction(a => a.count === 5)).toBe(undefined)
+  })
+
+  it('get an action by type', () => {
+    const action = { type: 'ADD_ITEM' }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    expect(store.getActionByType('ADD_ITEM')).toEqual(action)
+  })
+
+  it('get undefined if the action type has not been dispatched', () => {
+    const action = { type: 'ADD_ITEM' }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    expect(store.getActionByType('REMOVE_ITEM')).toBe(undefined)
+  })
+
+  it('tell if an action has been dispatched', () => {
+    const action = { type: 'ADD_ITEM' }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    expect(store.isActionTypeDispatched('ADD_ITEM')).toEqual(true)
+  })
+
+  it('tell if an action has not been dispatched', () => {
+    const action = { type: 'ADD_ITEM' }
+    const store = mockStore({})
+
+    store.dispatch(action)
+    expect(store.isActionTypeDispatched('REMOVE_ITEM')).toEqual(false)
+  })
 })
