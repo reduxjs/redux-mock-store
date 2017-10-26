@@ -17,6 +17,18 @@ export default function configureStore (middlewares = []) {
           return actions
         },
 
+        getAction (fn) {
+          return actions.find(fn)
+        },
+
+        getActionByType (type) {
+          return self.getAction(a => a.type === type)
+        },
+
+        isActionTypeDispatched (type) {
+          return self.getActionByType(type) !== undefined
+        },
+
         dispatch (action) {
           if (typeof action === 'undefined') {
             throw new Error(
