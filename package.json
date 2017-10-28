@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
-    "lint": "standard src/*.js test/*.js --fix",
+    "lint": "standard src/*.js test/*.js",
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
   },
