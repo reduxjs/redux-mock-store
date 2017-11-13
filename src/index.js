@@ -19,6 +19,10 @@ export default function configureStore (middlewares = []) {
         },
 
         dispatch (action) {
+          if (isFunction(action)) {
+            return action(self.dispatch, self.getState);
+          }
+
           if (!isPlainObject(action)) {
             throw new Error(
               'Actions must be plain objects. ' +
