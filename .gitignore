@@ -1,5 +1,4 @@
 logs
 *.log
 node_modules
-lib
 .idea/
