@@ -5,7 +5,7 @@
 
 A mock store for testing your redux async action creators and middleware. The mock store will create an array of dispatched actions which serve as an action log for tests.
 
-Please note that this library is designed to test the action-related logic, not the reducer-related one. If you want a complex test combining action and reducer, use other libraries (e.g., [redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)). Refer issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71) for more detail.
+Please note that this library is designed to test the action-related logic, not the reducer-related one. In other words, it does not update Redux store. If you want a complex test combining action and reducer together, take a look at other libraries (e.g., [redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)). Refer issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71) for more detail.
 
 ## Install
 
