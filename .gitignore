@@ -2,5 +2,4 @@ logs
 *.log
 node_modules
 lib
-dist
 .idea/
