@@ -1,6 +1,6 @@
 {
   "name": "redux-mock-store",
-  "version": "1.2.3",
+  "version": "1.4.0",
   "description": "A mock store for testing your redux async action creators and middleware",
   "main": "lib/index.js",
   "scripts": {
@@ -41,5 +41,8 @@
     "rollup-plugin-uglify": "^2.0.1",
     "sinon": "^1.17.2",
     "standard": "^7.1.2"
+  },
+  "dependencies": {
+    "lodash.isplainobject": "^4.0.6"
   }
 }

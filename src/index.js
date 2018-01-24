@@ -1,4 +1,5 @@
 import { applyMiddleware } from 'redux'
+import isPlainObject from 'lodash.isplainobject'
 
 const isFunction = arg => typeof arg === 'function'
 
@@ -10,7 +11,7 @@ export default function configureStore (middlewares = []) {
 
       const self = {
         getState () {
-          return isFunction(getState) ? getState() : getState
+          return isFunction(getState) ? getState(actions) : getState
         },
 
         getActions () {
@@ -18,9 +19,10 @@ export default function configureStore (middlewares = []) {
         },
 
         dispatch (action) {
-          if (typeof action === 'undefined') {
+          if (!isPlainObject(action)) {
             throw new Error(
-              'Actions may not be an undefined.'
+              'Actions must be plain objects. ' +
+              'Use custom middleware for async actions.'
             )
           }
 
