@@ -26,4 +26,6 @@ https://github.com/arnaudbenard/redux-mock-store/blob/v0.0.6/README.md
 The MIT License
 
 ## Sponsors
+
 <a href="https://app.codesponsor.io/link/jxMtyJ1U2FXauYmvU37ewrmE/arnaudbenard/redux-mock-store" rel="nofollow"><img src="https://app.codesponsor.io/embed/jxMtyJ1U2FXauYmvU37ewrmE/arnaudbenard/redux-mock-store.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
+
