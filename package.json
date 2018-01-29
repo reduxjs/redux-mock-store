@@ -8,11 +8,11 @@
   "browser": "dist/index.min.js",
   "scripts": {
     "prepublish": "rimraf lib && rimraf dist && npm run build",
-    "build:cjs": "cross-env BABEL_ENV=es NODE_ENV=production rollup -f cjs -c -i src/index.js -o dist/index-cjs.js",
+    "build:cjs": "babel src --out-file dist/index-cjs.js",
     "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development rollup -f umd -c -i src/index.js -o dist/index-umd.js",
     "build:umd:min": "cross-env BABEL_ENV=es NODE_ENV=production rollup -f umd -c -i src/index.js -o dist/index-umd.min.js",
     "build:es": "cross-env BABEL_ENV=es NODE_ENV=development rollup -f es -c -i src/index.js -o dist/index-es.js",
-    "build": "npm run build:cjs && npm run build:umd && npm run build:umd:min && npm run build:es",
+    "build": "npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:cjs",
     "lint": "standard src/*.js test/*.js",
     "pretest": "npm run lint",
     "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"

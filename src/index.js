@@ -3,7 +3,7 @@ import isPlainObject from 'lodash.isplainobject'
 
 const isFunction = arg => typeof arg === 'function'
 
-export default function configureStore (middlewares = []) {
+export function configureStore (middlewares = []) {
   return function mockStore (getState = {}) {
     function mockStoreWithoutMiddleware () {
       let actions = []
@@ -80,3 +80,5 @@ export default function configureStore (middlewares = []) {
     return mockStoreWithMiddleware()
   }
 }
+
+export default configureStore
