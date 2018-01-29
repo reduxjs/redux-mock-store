@@ -18,7 +18,8 @@ npm install redux-mock-store --save-dev
 The simplest usecase is for the synchronous actions. In this example, we will test if the `addTodo` action returns the right payload. `redux-mock-store` saves all the dispatched actions inside the store instance. You can get all the action by calling `store.getActions()`. Finally, you can use any assertion library to test the payload.
 
 ```js
-import configureStore from 'redux-mock-store'
+import configureStore from 'redux-mock-store' //ES6 modules
+const { configureStore } = require('redux-mock-store') //CommonJS
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
@@ -125,6 +126,13 @@ Follows the redux API
 
 https://github.com/arnaudbenard/redux-mock-store/blob/v0.0.6/README.md
 
+### Versions
+
+The following versions are exposed by redux-mock-store from the `package.json`:
+
+* `main`: commonJS Version
+* `module`/`js:next`: ES Module Version
+* `browser` : UMD version
 
 ## License
 
