@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import thunk from 'redux-thunk'
 
 import mockMiddleware from './mock/middleware'
-import configureStore from '../src'
+import configureStore from '../'
 
 const mockStore = configureStore()
 
