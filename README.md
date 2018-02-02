@@ -3,9 +3,9 @@
 
 ![npm](https://nodei.co/npm/redux-mock-store.png?downloads=true&downloadRank=true&stars=true)
 
-A mock store for testing your redux async action creators and middleware. The mock store will create an array of dispatched actions which serve as an action log for tests.
+A mock store for testing Redux async action creators and middleware. The mock store will create an array of dispatched actions which serve as an action log for tests.
 
-Please note that this library is designed to test the action-related logic, not the reducer-related one. In other words, it does not update Redux store. If you want a complex test combining action and reducer together, take a look at other libraries (e.g., [redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)). Refer issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71) for more detail.
+Please note that this library is designed to test the action-related logic, not the reducer-related one. In other words, it does not update the Redux store. If you want a complex test combining actions and reducers together, take a look at other libraries (e.g., [redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)). Refer to issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71) for more details.
 
 ## Install
 
@@ -15,9 +15,9 @@ npm install redux-mock-store --save-dev
 
 ## Usage
 
-### Synchronous action
+### Synchronous actions
 
-The simplest usecase is for the synchronous actions. In this example, we will test if the `addTodo` action returns the right payload. `redux-mock-store` saves all the dispatched actions inside the store instance. You can get all the action by calling `store.getActions()`. Finally, you can use any assertion library to test the payload.
+The simplest usecase is for synchronous actions. In this example, we will test if the `addTodo` action returns the right payload. `redux-mock-store` saves all the dispatched actions inside the store instance. You can get all the actions by calling `store.getActions()`. Finally, you can use any assertion library to test the payload.
 
 ```js
 import configureStore from 'redux-mock-store' //ES6 modules
@@ -45,7 +45,7 @@ it('should dispatch action', () => {
 })
 ```
 
-### Asynchronous action
+### Asynchronous actions
 
 A common usecase for an asynchronous action is a HTTP request to a server. In order to test those types of actions, you will need to call `store.getActions()` at the end of the request.
 
@@ -87,7 +87,7 @@ it('should execute fetch data', () => {
 ```js
 configureStore(middlewares?: Array) => mockStore: Function
 ```
-Configure mock store by applying the middlewares
+Configure mock store by applying the middlewares.
 
 ```js
 mockStore(getState?: Object,Function) => store: Function
@@ -102,27 +102,27 @@ Dispatches an action through the mock store. The action will be stored in an arr
 ```js
 store.getState() => state: Object
 ```
-Returns the state of the mock store
+Returns the state of the mock store.
 
 ```js
 store.getActions() => actions: Array
 ```
-Returns the actions of the mock store
+Returns the actions of the mock store.
 
 ```js
 store.clearActions()
 ```
-Clears the stored actions
+Clears the stored actions.
 
 ```js
 store.subscribe(callback: Function) => unsubscribe: Function
 ```
-Subscribe to the store
+Subscribe to the store.
 
 ```js
 store.replaceReducer(nextReducer: Function)
 ```
-Follows the redux API
+Follows the Redux API.
 
 ### Old version (`< 1.x.x`)
 
