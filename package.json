@@ -5,7 +5,7 @@
   "main": "dist/index-cjs.js",
   "module": "dist/index-es.js",
   "js:next": "dist/index-es.js",
-  "browser": "dist/index.min.js",
+  "browser": "dist/index-umd.min.js",
   "scripts": {
     "prepublish": "rimraf lib && rimraf dist && npm run build",
     "build:cjs": "babel src --out-file dist/index-cjs.js",
