@@ -15,7 +15,10 @@
     "build": "npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:cjs",
     "lint": "standard src/*.js test/*.js",
     "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-core/register --reporter spec test/*.js"
+    "test": "npm run build && npm run test:unit && npm run test:cjs && npm run test:es",
+    "test:unit": "mocha --compilers js:babel-core/register --reporter spec test/*.js",
+    "test:cjs": "mocha --reporter spec test/builds/cjs.js",
+    "test:es": "mocha --compilers js:babel-core/register --reporter spec test/builds/es.js"
   },
   "repository": {
     "type": "git",
