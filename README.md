@@ -9,8 +9,14 @@ Please note that this library is designed to test the action-related logic, not 
 
 ## Install
 
-```
+```bash
 npm install redux-mock-store --save-dev
+```
+
+Or
+
+```bash
+yarn add redux-mock-store --dev
 ```
 
 ## Usage
