@@ -1,59 +1,143 @@
 {
-  "name": "redux-mock-store",
-  "version": "1.5.2",
+  "name": "@jedmao/redux-mock-store",
+  "version": "0.0.0",
   "description": "A mock store for testing your redux async action creators and middleware",
-  "main": "dist/index-cjs.js",
-  "module": "dist/index-es.js",
-  "js:next": "dist/index-es.js",
-  "browser": "dist/index-umd.min.js",
+  "keywords": [
+    "react",
+    "redux",
+    "mock",
+    "store",
+    "thunk",
+    "test"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
-    "prepublish": "rimraf lib && rimraf dist && npm run build",
-    "build:cjs": "babel src --out-file dist/index-cjs.js",
-    "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development rollup -f umd -c -i src/index.js -o dist/index-umd.js",
-    "build:umd:min": "cross-env BABEL_ENV=es NODE_ENV=production rollup -f umd -c -i src/index.js -o dist/index-umd.min.js",
-    "build:es": "cross-env BABEL_ENV=es NODE_ENV=development rollup -f es -c -i src/index.js -o dist/index-es.js",
-    "build": "npm run build:umd && npm run build:umd:min && npm run build:es && npm run build:cjs",
-    "lint": "standard src/*.js test/*.js",
-    "pretest": "npm run lint",
-    "test": "npm run build && npm run test:unit && npm run test:cjs && npm run test:es",
-    "test:unit": "mocha --compilers js:babel-core/register --reporter spec test/*.js",
-    "test:cjs": "mocha --reporter spec test/builds/cjs.js",
-    "test:es": "mocha --compilers js:babel-core/register --reporter spec test/builds/es.js"
+    "clean": "rimraf dist",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "test": "jest --watch",
+    "cover": "jest --coverage",
+    "commit": "git-cz",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arnaudbenard/redux-mock-store.git"
+    "url": "git+https://github.com/jedmao/redux-mock-store.git"
   },
-  "author": "Arnaud Benard <arnaudm.benard@gmail.com>",
+  "author": "Jed Mao <jedmao@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arnaudbenard/redux-mock-store/issues"
+    "url": "https://github.com/jedmao/redux-mock-store/issues"
   },
-  "homepage": "https://github.com/arnaudbenard/redux-mock-store#readme",
-  "devDependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-core": "^6.13.2",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "cross-env": "^5.0.1",
-    "expect": "^1.12.2",
-    "mocha": "^2.3.3",
-    "redux": "^3.0.4",
-    "redux-thunk": "^2.0.1",
-    "rimraf": "^2.4.3",
-    "rollup": "^0.45.1",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-replace": "^1.1.1",
-    "rollup-plugin-uglify": "^2.0.1",
-    "sinon": "^1.17.2",
-    "standard": "^7.1.2"
+  "homepage": "https://github.com/jedmao/redux-mock-store#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "jest --coverage"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ],
+    "src/**/*.{js,jsx}": [
+      "git reset"
+    ]
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "proseWrap": "always",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/index.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 100,
+        "branches": 100,
+        "lines": 100,
+        "functions": 100
+      }
+    },
+    "coverageReporters": [
+      "json",
+      "lcov"
+    ],
+    "preset": "ts-jest",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ]
   },
   "dependencies": {
-    "lodash.isplainobject": "^4.0.6"
+    "@queso/kebab-case": "^1.0.1",
+    "lodash.isplainobject": "^4.0.6",
+    "ts-helpers": "^1.1.2"
   },
   "peerDependencies": {
     "redux": "*"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@jedmao/semantic-release-npm-github-config": "^1.0.6",
+    "@jedmao/tsconfig": "^0.3.0",
+    "@testing-library/react": "^8.0.4",
+    "@types/jest": "^24.0.15",
+    "@types/lodash.isfunction": "^3.0.6",
+    "@types/lodash.isplainobject": "^4.0.6",
+    "@types/node": "^12.6.2",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@types/redux": "^3.6.0",
+    "@types/redux-thunk": "^2.1.0",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "commitizen": "^3.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-xo": "^0.26.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^9.2.0",
+    "lodash.isfunction": "^3.0.9",
+    "prettier": "^1.18.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "redux-thunk": "^2.3.0",
+    "rimraf": "^2.6.3",
+    "semantic-release": "^15.13.18",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  },
+  "release": {
+    "branch": "master",
+    "extends": "@jedmao/semantic-release-npm-github-config"
   }
 }

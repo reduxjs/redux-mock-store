@@ -1,0 +1,28 @@
+language: node_js
+
+node_js:
+  - 'lts/*'
+
+cache: npm
+
+branches:
+  only:
+    - master
+
+script:
+  - npx npm-install-peers
+  - npm run cover
+
+after_success:
+  - npx codecov -f coverage/lcov.info
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+
+deploy:
+  - provider: script
+    script:
+      npx semantic-release -r
+      https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+    skip_cleanup: true
+    keep_history: true
+    on:
+      branch: master

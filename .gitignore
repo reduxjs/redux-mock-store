@@ -1,6 +1,12 @@
-logs
-*.log
+# dependencies
 node_modules
-lib
-dist
-.idea/
+
+# testing
+/coverage
+
+# production
+/dist
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

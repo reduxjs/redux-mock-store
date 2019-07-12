@@ -1,0 +1,49 @@
+{
+  "env": {
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "impliedStrict": true
+    },
+    "ecmaVersion": 6,
+    "project": "./tsconfig.json",
+    "sourceType": "module",
+    "tsconfigRootDir": "."
+  },
+  "plugins": ["prettier", "@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "xo",
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "valid-jsdoc": "off",
+
+    // Possible Errors
+    "no-async-promise-executor": "error",
+    "no-await-in-loop": "error",
+    "no-misleading-character-class": "error",
+    "no-template-curly-in-string": "error",
+
+    // TypeScript-ESLint (Prettier)
+    "@typescript-eslint/member-delimiter-style": "off",
+
+    // TypeScript-ESLint
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-object-literal-type-assertion": "off",
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": "off"
+  }
+}

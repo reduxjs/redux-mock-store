@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "files.associations": {
+    ".eslintrc.json": "jsonc"
+  },
+  "search.exclude": {
+    "**/coverge": true,
+    "**/dist": true,
+    "**/node_modules": true
+  }
+}

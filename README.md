@@ -1,11 +1,20 @@
-# redux-mock-store [![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
+# @jedmao/redux-mock-store
 
+[![Travis Build Status](https://img.shields.io/travis/com/jedmao/redux-mock-store.svg?style=popout-square&logo=travis)](https://travis-ci.com/jedmao/redux-mock-store)
+[![codecov](https://img.shields.io/codecov/c/gh/jedmao/redux-mock-store.svg?style=popout-square&logo=codecov&token=4f79d0b1189f41e5a5ed32e87ca0a204)](https://codecov.io/gh/jedmao/redux-mock-store)
+[![npm version](https://img.shields.io/npm/v/jedmao/redux-mock-store/latest.svg?style=popout-square&logo=npm)](https://www.npmjs.com/package/jedmao/redux-mock-store)
 
-![npm](https://nodei.co/npm/redux-mock-store.png?downloads=true&downloadRank=true&stars=true)
+A mock store for testing Redux async action creators and middleware. The mock
+store will create an array of dispatched actions which serve as an action log
+for tests.
 
-A mock store for testing Redux async action creators and middleware. The mock store will create an array of dispatched actions which serve as an action log for tests.
-
-Please note that this library is designed to test the action-related logic, not the reducer-related one. In other words, it does not update the Redux store. If you want a complex test combining actions and reducers together, take a look at other libraries (e.g., [redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)). Refer to issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71) for more details.
+Please note that this library is designed to test the action-related logic, not
+the reducer-related one. In other words, it does not update the Redux store. If
+you want a complex test combining actions and reducers together, take a look at
+other libraries (e.g.,
+[redux-actions-assertions](https://github.com/redux-things/redux-actions-assertions)).
+Refer to issue [#71](https://github.com/arnaudbenard/redux-mock-store/issues/71)
+for more details.
 
 ## Install
 
@@ -23,7 +32,11 @@ yarn add redux-mock-store --dev
 
 ### Synchronous actions
 
-The simplest usecase is for synchronous actions. In this example, we will test if the `addTodo` action returns the right payload. `redux-mock-store` saves all the dispatched actions inside the store instance. You can get all the actions by calling `store.getActions()`. Finally, you can use any assertion library to test the payload.
+The simplest usecase is for synchronous actions. In this example, we will test
+if the `addTodo` action returns the right payload. `redux-mock-store` saves all
+the dispatched actions inside the store instance. You can get all the actions by
+calling `store.getActions()`. Finally, you can use any assertion library to test
+the payload.
 
 ```js
 import configureStore from 'redux-mock-store' //ES6 modules
@@ -36,7 +49,6 @@ const mockStore = configureStore(middlewares)
 const addTodo = () => ({ type: 'ADD_TODO' })
 
 it('should dispatch action', () => {
-
   // Initialize mockstore with empty state
   const initialState = {}
   const store = mockStore(initialState)
@@ -53,7 +65,9 @@ it('should dispatch action', () => {
 
 ### Asynchronous actions
 
-A common usecase for an asynchronous action is a HTTP request to a server. In order to test those types of actions, you will need to call `store.getActions()` at the end of the request.
+A common usecase for an asynchronous action is a HTTP request to a server. In
+order to test those types of actions, you will need to call `store.getActions()`
+at the end of the request.
 
 ```js
 import configureStore from 'redux-mock-store'
@@ -65,26 +79,25 @@ const mockStore = configureStore(middlewares)
 // You would import the action from your codebase in a real scenario
 function success() {
   return {
-    type: 'FETCH_DATA_SUCCESS'
+    type: 'FETCH_DATA_SUCCESS',
   }
 }
 
-function fetchData () {
+function fetchData() {
   return dispatch => {
     return fetch('/users.json') // Some async action with promise
       .then(() => dispatch(success()))
-  };
+  }
 }
 
 it('should execute fetch data', () => {
   const store = mockStore({})
 
   // Return the promise
-  return store.dispatch(fetchData())
-    .then(() => {
-      const actions = store.getActions()
-      expect(actions[0]).toEqual(success())
-    })
+  return store.dispatch(fetchData()).then(() => {
+    const actions = store.getActions()
+    expect(actions[0]).toEqual(success())
+  })
 })
 ```
 
@@ -93,41 +106,51 @@ it('should execute fetch data', () => {
 ```js
 configureStore(middlewares?: Array) => mockStore: Function
 ```
+
 Configure mock store by applying the middlewares.
 
 ```js
 mockStore(getState?: Object,Function) => store: Function
 ```
-Returns an instance of the configured mock store. If you want to reset your store after every test, you should call this function.
+
+Returns an instance of the configured mock store. If you want to reset your
+store after every test, you should call this function.
 
 ```js
 store.dispatch(action) => action
 ```
-Dispatches an action through the mock store. The action will be stored in an array inside the instance and executed.
+
+Dispatches an action through the mock store. The action will be stored in an
+array inside the instance and executed.
 
 ```js
 store.getState() => state: Object
 ```
+
 Returns the state of the mock store.
 
 ```js
 store.getActions() => actions: Array
 ```
+
 Returns the actions of the mock store.
 
 ```js
 store.clearActions()
 ```
+
 Clears the stored actions.
 
 ```js
 store.subscribe(callback: Function) => unsubscribe: Function
 ```
+
 Subscribe to the store.
 
 ```js
 store.replaceReducer(nextReducer: Function)
 ```
+
 Follows the Redux API.
 
 ### Old version (`< 1.x.x`)
@@ -138,9 +161,9 @@ https://github.com/arnaudbenard/redux-mock-store/blob/v0.0.6/README.md
 
 The following versions are exposed by redux-mock-store from the `package.json`:
 
-* `main`: commonJS Version
-* `module`/`js:next`: ES Module Version
-* `browser` : UMD version
+- `main`: commonJS Version
+- `module`/`js:next`: ES Module Version
+- `browser` : UMD version
 
 ## License
 
