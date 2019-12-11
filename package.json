@@ -1,6 +1,6 @@
 {
   "name": "redux-mock-store",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "A mock store for testing your redux async action creators and middleware",
   "main": "lib/index.js",
   "scripts": {
