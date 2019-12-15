@@ -4,14 +4,16 @@ import isPlainObject from 'lodash.isplainobject'
 const isFunction = arg => typeof arg === 'function'
 
 export function configureStore (middlewares = []) {
-  return function mockStore (getState = {}) {
+  return function mockStore (initialState = {}) {
     function mockStoreWithoutMiddleware () {
       let actions = []
       let listeners = []
+      let state = isFunction(initialState) ? initialState(actions) : initialState
+      let reducer = () => (state)
 
       const self = {
         getState () {
-          return isFunction(getState) ? getState(actions) : getState
+          return state
         },
 
         getActions () {
@@ -41,6 +43,7 @@ export function configureStore (middlewares = []) {
             listeners[i]()
           }
 
+          state = reducer(state, action)
           return action
         },
 
@@ -67,6 +70,7 @@ export function configureStore (middlewares = []) {
           if (!isFunction(nextReducer)) {
             throw new Error('Expected the nextReducer to be a function.')
           }
+          reducer = nextReducer
         }
       }
 
