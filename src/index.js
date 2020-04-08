@@ -2,12 +2,12 @@ import { applyMiddleware } from 'redux'
 
 const isFunction = arg => typeof arg === 'function'
 
-const isPlainObject = function (obj) {
-	return (
-		Object.prototype.toString.call(obj) === '[object Object]' &&
-		Object.getPrototypeOf(obj) === Object.prototype
-	)
-}
+const isPlainObject = function(obj) {
+  return (
+    Object.prototype.toString.call(obj) === '[object Object]' &&
+    Object.getPrototypeOf(obj) === Object.prototype
+  );
+};
 
 export function configureStore (middlewares = []) {
   return function mockStore (getState = {}) {
