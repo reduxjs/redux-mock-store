@@ -3,17 +3,10 @@ import { applyMiddleware } from 'redux'
 const isFunction = arg => typeof arg === 'function'
 
 const isPlainObject = function (obj) {
-  if (!isObjectLike(obj) || getTag(obj) != '[object Object]') {
-    return false
-  }
-  if (Object.getPrototypeOf(obj) === null) {
-    return true
-  }
-  let proto = obj
-  while (Object.getPrototypeOf(proto) !== null) {
-    proto = Object.getPrototypeOf(proto)
-  }
-  return Object.getPrototypeOf(obj) === proto
+	return (
+		Object.prototype.toString.call(obj) === '[object Object]' &&
+		Object.getPrototypeOf(obj) === Object.prototype
+	)
 }
 
 export function configureStore (middlewares = []) {
