@@ -2,6 +2,7 @@ import { applyMiddleware } from "redux";
 import isPlainObject from "lodash.isplainobject";
 
 const isFunction = (arg) => typeof arg === "function";
+
 /**
  * @deprecated
  *
@@ -99,5 +100,13 @@ export function configureStore(middlewares = []) {
     return mockStoreWithMiddleware();
   };
 }
+
+/**
+ * Create Mock Store returns a function that will create a mock store from a state
+ * with the supplied set of middleware applied.
+ *
+ * @param middlewares The list of middleware to be applied.
+ */
+export const legacy_configureStore = configureStore;
 
 export default configureStore;
