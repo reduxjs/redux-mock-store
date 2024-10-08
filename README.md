@@ -18,7 +18,7 @@ it("should add a todo", () => {
 });
 ```
 
-This avoids common pitfalls of testing each of these in isolation, such as state shape becoming out of sync with the actual application.
+This avoids common pitfalls of testing each of these in isolation, such as mocked state shape becoming out of sync with the actual application.
 
 # redux-mock-store [![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
 
