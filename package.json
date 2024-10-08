@@ -55,5 +55,10 @@
   },
   "peerDependencies": {
     "redux": "*"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "none"
   }
 }

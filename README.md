@@ -7,15 +7,15 @@ Testing with a mock store leads to potentially confusing behaviour, such as stat
 You can test the entire combination of action creators, reducers, and selectors in a single test, for example:
 
 ```js
-it("should add a todo", () => {
-  const store = makeStore(); // a user defined reusable store factory
+it('should add a todo', () => {
+  const store = makeStore() // a user defined reusable store factory
 
-  store.dispatch(addTodo("Use Redux"));
+  store.dispatch(addTodo('Use Redux'))
 
   expect(selectTodos(store.getState())).toEqual([
-    { text: "Use Redux", completed: false },
-  ]);
-});
+    { text: 'Use Redux', completed: false }
+  ])
+})
 ```
 
 This avoids common pitfalls of testing each of these in isolation, such as mocked state shape becoming out of sync with the actual application.
@@ -47,28 +47,28 @@ yarn add redux-mock-store --dev
 The simplest usecase is for synchronous actions. In this example, we will test if the `addTodo` action returns the right payload. `redux-mock-store` saves all the dispatched actions inside the store instance. You can get all the actions by calling `store.getActions()`. Finally, you can use any assertion library to test the payload.
 
 ```js
-import configureStore from "redux-mock-store"; //ES6 modules
-const { configureStore } = require("redux-mock-store"); //CommonJS
+import configureStore from 'redux-mock-store' //ES6 modules
+const { configureStore } = require('redux-mock-store') //CommonJS
 
-const middlewares = [];
-const mockStore = configureStore(middlewares);
+const middlewares = []
+const mockStore = configureStore(middlewares)
 
 // You would import the action from your codebase in a real scenario
-const addTodo = () => ({ type: "ADD_TODO" });
+const addTodo = () => ({ type: 'ADD_TODO' })
 
-it("should dispatch action", () => {
+it('should dispatch action', () => {
   // Initialize mockstore with empty state
-  const initialState = {};
-  const store = mockStore(initialState);
+  const initialState = {}
+  const store = mockStore(initialState)
 
   // Dispatch the action
-  store.dispatch(addTodo());
+  store.dispatch(addTodo())
 
   // Test if your store dispatched the expected actions
-  const actions = store.getActions();
-  const expectedPayload = { type: "ADD_TODO" };
-  expect(actions).toEqual([expectedPayload]);
-});
+  const actions = store.getActions()
+  const expectedPayload = { type: 'ADD_TODO' }
+  expect(actions).toEqual([expectedPayload])
+})
 ```
 
 ### Asynchronous actions
@@ -76,35 +76,35 @@ it("should dispatch action", () => {
 A common usecase for an asynchronous action is a HTTP request to a server. In order to test those types of actions, you will need to call `store.getActions()` at the end of the request.
 
 ```js
-import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
+import configureStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
 
-const middlewares = [thunk]; // add your middlewares like `redux-thunk`
-const mockStore = configureStore(middlewares);
+const middlewares = [thunk] // add your middlewares like `redux-thunk`
+const mockStore = configureStore(middlewares)
 
 // You would import the action from your codebase in a real scenario
 function success() {
   return {
-    type: "FETCH_DATA_SUCCESS",
-  };
+    type: 'FETCH_DATA_SUCCESS'
+  }
 }
 
 function fetchData() {
   return (dispatch) => {
-    return fetch("/users.json") // Some async action with promise
-      .then(() => dispatch(success()));
-  };
+    return fetch('/users.json') // Some async action with promise
+      .then(() => dispatch(success()))
+  }
 }
 
-it("should execute fetch data", () => {
-  const store = mockStore({});
+it('should execute fetch data', () => {
+  const store = mockStore({})
 
   // Return the promise
   return store.dispatch(fetchData()).then(() => {
-    const actions = store.getActions();
-    expect(actions[0]).toEqual(success());
-  });
-});
+    const actions = store.getActions()
+    expect(actions[0]).toEqual(success())
+  })
+})
 ```
 
 ### API
@@ -140,7 +140,7 @@ store.getActions() => actions: Array
 Returns the actions of the mock store.
 
 ```js
-store.clearActions();
+store.clearActions()
 ```
 
 Clears the stored actions.
