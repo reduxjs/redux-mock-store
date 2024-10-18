@@ -1,5 +1,26 @@
-# redux-mock-store [![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
+# Deprecation notice
 
+The Redux team does not recommend testing using this library. Instead, see our [docs](https://redux.js.org/usage/writing-tests) for recommended practices, using a real store.
+
+Testing with a mock store leads to potentially confusing behaviour, such as state not updating when actions are dispatched. Additionally, it's a lot less useful to assert on the actions dispatched rather than the observable state changes.
+
+You can test the entire combination of action creators, reducers, and selectors in a single test, for example:
+
+```js
+it('should add a todo', () => {
+  const store = makeStore() // a user defined reusable store factory
+
+  store.dispatch(addTodo('Use Redux'))
+
+  expect(selectTodos(store.getState())).toEqual([
+    { text: 'Use Redux', completed: false }
+  ])
+})
+```
+
+This avoids common pitfalls of testing each of these in isolation, such as mocked state shape becoming out of sync with the actual application.
+
+# redux-mock-store [![Circle CI](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master.svg?style=svg)](https://circleci.com/gh/arnaudbenard/redux-mock-store/tree/master)
 
 ![npm](https://nodei.co/npm/redux-mock-store.png?downloads=true&downloadRank=true&stars=true)
 
@@ -36,7 +57,6 @@ const mockStore = configureStore(middlewares)
 const addTodo = () => ({ type: 'ADD_TODO' })
 
 it('should dispatch action', () => {
-
   // Initialize mockstore with empty state
   const initialState = {}
   const store = mockStore(initialState)
@@ -69,22 +89,21 @@ function success() {
   }
 }
 
-function fetchData () {
-  return dispatch => {
+function fetchData() {
+  return (dispatch) => {
     return fetch('/users.json') // Some async action with promise
       .then(() => dispatch(success()))
-  };
+  }
 }
 
 it('should execute fetch data', () => {
   const store = mockStore({})
 
   // Return the promise
-  return store.dispatch(fetchData())
-    .then(() => {
-      const actions = store.getActions()
-      expect(actions[0]).toEqual(success())
-    })
+  return store.dispatch(fetchData()).then(() => {
+    const actions = store.getActions()
+    expect(actions[0]).toEqual(success())
+  })
 })
 ```
 
@@ -93,41 +112,49 @@ it('should execute fetch data', () => {
 ```js
 configureStore(middlewares?: Array) => mockStore: Function
 ```
+
 Configure mock store by applying the middlewares.
 
 ```js
 mockStore(getState?: Object,Function) => store: Function
 ```
+
 Returns an instance of the configured mock store. If you want to reset your store after every test, you should call this function.
 
 ```js
 store.dispatch(action) => action
 ```
+
 Dispatches an action through the mock store. The action will be stored in an array inside the instance and executed.
 
 ```js
 store.getState() => state: Object
 ```
+
 Returns the state of the mock store.
 
 ```js
 store.getActions() => actions: Array
 ```
+
 Returns the actions of the mock store.
 
 ```js
 store.clearActions()
 ```
+
 Clears the stored actions.
 
 ```js
 store.subscribe(callback: Function) => unsubscribe: Function
 ```
+
 Subscribe to the store.
 
 ```js
 store.replaceReducer(nextReducer: Function)
 ```
+
 Follows the Redux API.
 
 ### Old version (`< 1.x.x`)
@@ -138,9 +165,9 @@ https://github.com/arnaudbenard/redux-mock-store/blob/v0.0.6/README.md
 
 The following versions are exposed by redux-mock-store from the `package.json`:
 
-* `main`: commonJS Version
-* `module`/`js:next`: ES Module Version
-* `browser` : UMD version
+- `main`: commonJS Version
+- `module`/`js:next`: ES Module Version
+- `browser` : UMD version
 
 ## License
 
