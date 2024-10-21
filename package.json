@@ -1,6 +1,6 @@
 {
   "name": "redux-mock-store",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "A mock store for testing your redux async action creators and middleware",
   "main": "dist/index-cjs.js",
   "module": "dist/index-es.js",
